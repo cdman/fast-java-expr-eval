@@ -14,7 +14,8 @@ The compared libraries are:
 * [MathEval](http://softwaremonkey.org/Code/MathEval)
 * [expr](http://softwaremonkey.org/Code/MathEval)
 * [Janino ExpressionEvaluator](http://docs.codehaus.org/display/JANINO/Basic)
-* A hand-rolled 
+* A hand-rolled solution based on Janino
 
 View results from my test-run [here](https://microbenchmarks.appspot.com/runs/866f81c9-58ad-462f-b477-69ad84d39875).
 
+Read a more detailed explanation on the [Transylvania JUG blog](http://www.transylvania-jug.org/archives/5777).
