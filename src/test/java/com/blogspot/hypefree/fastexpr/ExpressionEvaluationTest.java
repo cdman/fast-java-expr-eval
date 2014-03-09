@@ -35,8 +35,8 @@ public final class ExpressionEvaluationTest {
 
 	@Test
 	public void testMathEval() throws Exception {
-		evaluators.compileMathEval();
-		assertEquals(EXPECTED_RESULT, evaluators.evaluateMathEval(),
+		evaluators.compileMVEL();
+		assertEquals(EXPECTED_RESULT, evaluators.evaluateMVEL(),
 				EXPECTED_PRECISION);
 	}
 
@@ -58,6 +58,13 @@ public final class ExpressionEvaluationTest {
 	public void testJaninoFastexpr() throws Exception {
 		evaluators.compileJaninoFastexpr();
 		assertEquals(EXPECTED_RESULT, evaluators.evaluateJaninoFastexpr(), EXPECTED_PRECISION);
+	}
+
+	@Test
+	public void testMVEL() throws Exception {
+		evaluators.compileJanino();
+		assertEquals(EXPECTED_RESULT, evaluators.evaluateJanino(),
+				EXPECTED_PRECISION);
 	}
 
 	@Before

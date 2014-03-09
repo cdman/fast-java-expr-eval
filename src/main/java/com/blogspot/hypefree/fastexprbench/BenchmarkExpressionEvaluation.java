@@ -17,6 +17,7 @@ public final class BenchmarkExpressionEvaluation extends Benchmark {
 		precompiledEvaluators.compileExpr();
 		precompiledEvaluators.compileJanino();
 		precompiledEvaluators.compileJaninoFastexpr();
+		precompiledEvaluators.compileMVEL();
 	}
 
 	public double timeParsii(int reps) throws Exception {
@@ -89,6 +90,16 @@ public final class BenchmarkExpressionEvaluation extends Benchmark {
 		return result;
 	}
 
+	public double timeMVEL(int reps) throws Exception {
+		evaluators.compileMVEL();
+
+		double result = 0;
+		for (int i = 0; i < reps; ++i) {
+			result += evaluators.evaluateMVEL();
+		}
+		return result;
+	}
+
 	public double timeParsiiPrecompiled(int reps) throws Exception {
 		double result = 0;
 		for (int i = 0; i < reps; ++i) {
@@ -141,6 +152,14 @@ public final class BenchmarkExpressionEvaluation extends Benchmark {
 		double result = 0;
 		for (int i = 0; i < reps; ++i) {
 			result += precompiledEvaluators.evaluateJaninoFastexpr();
+		}
+		return result;
+	}
+
+	public double timeMVELPrecompiled(int reps) throws Exception {
+		double result = 0;
+		for (int i = 0; i < reps; ++i) {
+			result += precompiledEvaluators.evaluateMVEL();
 		}
 		return result;
 	}

@@ -1,6 +1,9 @@
 package com.blogspot.hypefree.fastexprbench;
 
+import java.io.Serializable;
 import java.util.Collections;
+
+import org.mvel.MVEL;
 
 import com.blogspot.hypefree.fastexpr.JaninoFastexpr;
 import com.blogspot.hypefree.fastexpr.UnaryDoubleFunction;
@@ -14,10 +17,9 @@ public final class Evaluators {
 	private org.cheffo.jeplite.util.DoubleStack jepStack;
 	private org.softwaremonkey.MathEval mathEval;
 	private expr.Expr exprEvaluator;
-
 	private org.codehaus.janino.ExpressionEvaluator janinoExpressionEvaluator;
-
 	private UnaryDoubleFunction fastexprFunction;
+	private Serializable mvelExpression;
 
 	public void compileParsii() throws Exception {
 		parsii.eval.Scope scope = parsii.eval.Scope.create();
@@ -98,5 +100,13 @@ public final class Evaluators {
 
 	public double evaluateJaninoFastexpr() throws Exception {
 		return fastexprFunction.evaluate(X_VALUE);
+	}
+
+	public void compileMVEL() throws Exception {
+		mvelExpression = MVEL.compileExpression("2 + (7-5) * 3.14159 * 0");
+	}
+
+	public double evaluateMVEL() throws Exception {
+		return (Double)MVEL.executeExpression(mvelExpression, Collections.emptyMap());
 	}
 }
