@@ -1,15 +1,13 @@
 package com.blogspot.hypefree.fastexprbench;
 
+import java.util.*;
 import java.io.Serializable;
-import java.util.Collections;
-
-import org.mvel.MVEL;
-
 import com.blogspot.hypefree.fastexpr.JaninoFastexpr;
 import com.blogspot.hypefree.fastexpr.UnaryDoubleFunction;
 
 public final class Evaluators {
 	private static final double X_VALUE = 0.0;
+	private static final Map<String, Double> X_VALUE_MAP = Collections.singletonMap("x", X_VALUE);
 
 	private parsii.eval.Expression parsiiExpr;
 	private net.sourceforge.jeval.Evaluator jevalEvaluator;
@@ -19,7 +17,7 @@ public final class Evaluators {
 	private expr.Expr exprEvaluator;
 	private org.codehaus.janino.ExpressionEvaluator janinoExpressionEvaluator;
 	private UnaryDoubleFunction fastexprFunction;
-	private Serializable mvelExpression;
+	private Serializable mvelExpression, mvelConstantExpression;
 
 	public void compileParsii() throws Exception {
 		parsii.eval.Scope scope = parsii.eval.Scope.create();
@@ -95,7 +93,8 @@ public final class Evaluators {
 	}
 
 	public void compileJaninoFastexpr() throws Exception {
-		fastexprFunction = new JaninoFastexpr().compile("2 + (7-5) * 3.14159 * x + sin(0)");
+		fastexprFunction = new JaninoFastexpr()
+				.compile("2 + (7-5) * 3.14159 * x + sin(0)");
 	}
 
 	public double evaluateJaninoFastexpr() throws Exception {
@@ -103,10 +102,23 @@ public final class Evaluators {
 	}
 
 	public void compileMVEL() throws Exception {
-		mvelExpression = MVEL.compileExpression("2 + (7-5) * 3.14159 * 0");
+		mvelExpression = org.mvel2.MVEL.compileExpression(
+				"2 + x * (7-5) * 3.14159 + Math.sin(0)",
+				org.mvel2.ParserContext.create().stronglyTyped()
+						.withInput("x", double.class));
 	}
 
 	public double evaluateMVEL() throws Exception {
-		return (Double)MVEL.executeExpression(mvelExpression, Collections.emptyMap());
+		return (Double) org.mvel2.MVEL.executeExpression(mvelExpression,
+				X_VALUE_MAP);
+	}
+
+	public void compileMVELConstant() throws Exception {
+		mvelConstantExpression = org.mvel2.MVEL.compileExpression(
+				"2 + (7-7) + Math.sin(0)");
+	}
+
+	public double evaluateMVELConstant() throws Exception {
+		return (Double) org.mvel2.MVEL.executeExpression(mvelConstantExpression);
 	}
 }

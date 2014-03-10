@@ -62,8 +62,15 @@ public final class ExpressionEvaluationTest {
 
 	@Test
 	public void testMVEL() throws Exception {
-		evaluators.compileJanino();
-		assertEquals(EXPECTED_RESULT, evaluators.evaluateJanino(),
+		evaluators.compileMVEL();
+		assertEquals(EXPECTED_RESULT, evaluators.evaluateMVEL(),
+				EXPECTED_PRECISION);
+	}
+
+	@Test
+	public void testMVELConstant() throws Exception {
+		evaluators.compileMVELConstant();
+		assertEquals(EXPECTED_RESULT, evaluators.evaluateMVELConstant(),
 				EXPECTED_PRECISION);
 	}
 
